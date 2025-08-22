@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindWell - Mental Health Checker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .question-container {
+            transition: transform 0.3s ease;
+        }
+
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen font-sans">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-indigo-700">MindWell</h1>
+            <div class="flex space-x-4">
+                <a href="#" class="text-indigo-600 hover:text-indigo-800">Home</a>
+                <a href="#" class="text-indigo-600 hover:text-indigo-800">About</a>
+                <a href="#" class="text-indigo-600 hover:text-indigo-800">Resources</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- Introduction Section -->
+        <section id="intro" class="fade-in max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 mb-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-indigo-800 mb-4">Mental Health Assessment</h2>
+                <p class="text-gray-600 mb-6">This assessment will help you understand your current mental wellbeing
+                    across three dimensions: Anxiety, Depression, and Stress. It consists of 48 questions and takes
+                    about 10-15 minutes to complete.</p>
+                <div class="bg-blue-50 p-4 rounded-lg mb-6">
+                    <p class="text-blue-800"><i class="fas fa-info-circle mr-2"></i>Your responses are completely
+                        anonymous and not stored on any server. This assessment is for informational purposes only and
+                        not a substitute for professional diagnosis.</p>
+                </div>
+                <button id="start-btn"
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105">
+                    Begin Assessment
+                </button>
+            </div>
+        </section>
+
+        <!-- Assessment Section -->
+        <section id="assessment"
+            class="hidden max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 mb-8">
+            <div class="mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-medium text-indigo-600">Progress</span>
+                    <span class="text-sm font-medium text-indigo-600"><span id="current-question">1</span>/48</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div id="progress-bar" class="progress-bar bg-indigo-600 h-2.5 rounded-full" style="width: 2%">
+                    </div>
+                </div>
+            </div>
+
+            <form id="assessment-form">
+                <div id="questions-container" class="space-y-8">
+                    <!-- Questions will be dynamically inserted here -->
+                </div>
+
+                <div class="flex justify-between mt-8">
+                    <button id="prev-btn" type="button"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg hidden">
+                        <i class="fas fa-arrow-left mr-2"></i>Previous
+                    </button>
+                    <button id="next-btn" type="button"
+                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg">
+                        Next<i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                    <button id="submit-btn" type="submit"
+                        class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg hidden">
+                        Submit Assessment
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results" class="hidden max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 mb-8">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-indigo-800 mb-2">Your Assessment Results</h2>
+                <p class="text-gray-600">Based on your responses, here's how you're doing in different areas of mental
+                    wellbeing.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h3 class="text-xl font-semibold text-blue-800 mb-2">Anxiety</h3>
+                    <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
+                        <div id="anxiety-score-bar" class="h-4 rounded-full bg-blue-600"></div>
+                    </div>
+                    <p id="anxiety-score-text" class="text-blue-800 font-bold">Score: 0/48</p>
+                    <p id="anxiety-level" class="text-sm text-blue-700 mt-2">Level: Minimal</p>
+                </div>
+
+                <div class="bg-purple-50 p-4 rounded-lg">
+                    <h3 class="text-xl font-semibold text-purple-800 mb-2">Depression</h3>
+                    <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
+                        <div id="depression-score-bar" class="h-4 rounded-full bg-purple-600"></div>
+                    </div>
+                    <p id="depression-score-text" class="text-purple-800 font-bold">Score: 0/48</p>
+                    <p id="depression-level" class="text-sm text-purple-700 mt-2">Level: Minimal</p>
+                </div>
+
+                <div class="bg-orange-50 p-4 rounded-lg">
+                    <h3 class="text-xl font-semibold text-orange-800 mb-2">Stress</h3>
+                    <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
+                        <div id="stress-score-bar" class="h-4 rounded-full bg-orange-600"></div>
+                    </div>
+                    <p id="stress-score-text" class="text-orange-800 font-bold">Score: 0/48</p>
+                    <p id="stress-level" class="text-sm text-orange-700 mt-2">Level: Minimal</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 p-6 rounded-lg mb-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Personalized Suggestions</h3>
+                <div id="suggestions" class="space-y-4">
+                    <!-- Suggestions will be inserted here -->
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button id="restart-btn"
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg">
+                    Take Again
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-white border-t mt-12">
+        <div class="container mx-auto px-4 py-6 text-center text-gray-600 text-sm">
+            <p>Disclaimer: This assessment is for informational purposes only and is not a substitute for professional
+                diagnosis or treatment.</p>
+            <p class="mt-2">If you're in crisis, please contact a mental health professional or emergency services.</p>
+            <p class="mt-4">© 2023 MindWell. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Question data - 16 questions for each category (anxiety, depression, stress)
+        const questions = [
+            // Anxiety questions (1-16)
+            { id: 1, category: 'anxiety', text: "I feel nervous or anxious without a clear reason" },
+            { id: 2, category: 'anxiety', text: "I experience sudden feelings of panic" },
+            { id: 3, category: 'anxiety', text: "I worry about things that might go wrong" },
+            { id: 4, category: 'anxiety', text: "I have difficulty relaxing" },
+            { id: 5, category: 'anxiety', text: "I feel restless and find it hard to sit still" },
+            { id: 6, category: 'anxiety', text: "I become easily annoyed or irritable" },
+            { id: 7, category: 'anxiety', text: "I feel afraid as if something awful might happen" },
+            { id: 8, category: 'anxiety', text: "I experience physical symptoms like sweating, trembling, or rapid heartbeat when anxious" },
+            { id: 9, category: 'anxiety', text: "I avoid situations that make me anxious" },
+            { id: 10, category: 'anxiety', text: "I have trouble falling or staying asleep due to worrying" },
+            { id: 11, category: 'anxiety', text: "I feel tense in my muscles, especially in my neck and shoulders" },
+            { id: 12, category: 'anxiety', text: "I find it difficult to control my worries" },
+            { id: 13, category: 'anxiety', text: "I feel like my mind goes blank when I'm anxious" },
+            { id: 14, category: 'anxiety', text: "I need frequent reassurance from others" },
+            { id: 15, category: 'anxiety', text: "I imagine worst-case scenarios" },
+            { id: 16, category: 'anxiety', text: "I feel overwhelmed by my responsibilities" },
+
+            // Depression questions (17-32)
+            { id: 17, category: 'depression', text: "I feel sad or down most of the time" },
+            { id: 18, category: 'depression', text: "I've lost interest in activities I used to enjoy" },
+            { id: 19, category: 'depression', text: "I have changes in my appetite (eating more or less than usual)" },
+            { id: 20, category: 'depression', text: "I have trouble sleeping or sleep too much" },
+            { id: 21, category: 'depression', text: "I feel tired or lack energy" },
+            { id: 22, category: 'depression', text: "I feel worthless or guilty without a clear reason" },
+            { id: 23, category: 'depression', text: "I have difficulty concentrating or making decisions" },
+            { id: 24, category: 'depression', text: "I feel hopeless about the future" },
+            { id: 25, category: 'depression', text: "I think about death or harming myself" },
+            { id: 26, category: 'depression', text: "I move or speak more slowly than usual" },
+            { id: 27, category: 'depression', text: "I feel irritable or restless" },
+            { id: 28, category: 'depression', text: "I isolate myself from friends and family" },
+            { id: 29, category: 'depression', text: "I cry more easily than usual" },
+            { id: 30, category: 'depression', text: "I have physical aches and pains without clear cause" },
+            { id: 31, category: 'depression', text: "I find it hard to take care of my personal hygiene" },
+            { id: 32, category: 'depression', text: "I feel emotionally numb" },
+
+            // Stress questions (33-48)
+            { id: 33, category: 'stress', text: "I feel overwhelmed by my daily tasks" },
+            { id: 34, category: 'stress', text: "I have difficulty switching off my thoughts" },
+            { id: 35, category: 'stress', text: "I feel impatient or easily frustrated" },
+            { id: 36, category: 'stress', text: "I neglect my own needs due to being too busy" },
+            { id: 37, category: 'stress', text: "I feel like I have too many responsibilities" },
+            { id: 38, category: 'stress', text: "I experience physical symptoms like headaches or stomach issues when stressed" },
+            { id: 39, category: 'stress', text: "I have difficulty relaxing even when I have time" },
+            { id: 40, category: 'stress', text: "I feel like I'm constantly under pressure" },
+            { id: 41, category: 'stress', text: "I worry about meeting others' expectations" },
+            { id: 42, category: 'stress', text: "I have trouble falling asleep because my mind is racing" },
+            { id: 43, category: 'stress', text: "I feel like I don't have enough time for myself" },
+            { id: 44, category: 'stress', text: "I get easily agitated by small things" },
+            { id: 45, category: 'stress', text: "I feel like I'm not in control of my life" },
+            { id: 46, category: 'stress', text: "I use unhealthy coping mechanisms (overeating, alcohol, etc.)" },
+            { id: 47, category: 'stress', text: "I feel burned out from work or daily demands" },
+            { id: 48, category: 'stress', text: "I have difficulty remembering things or staying organized" }
+        ];
+
+        // DOM elements
+        const introSection = document.getElementById('intro');
+        const assessmentSection = document.getElementById('assessment');
+        const resultsSection = document.getElementById('results');
+        const startBtn = document.getElementById('start-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const questionsContainer = document.getElementById('questions-container');
+        const progressBar = document.getElementById('progress-bar');
+        const currentQuestionElement = document.getElementById('current-question');
+        const assessmentForm = document.getElementById('assessment-form');
+
+        // State variables
+        let currentQuestion = 0;
+        const answers = new Array(questions.length).fill(null);
+
+        // Initialize the assessment
+        function initAssessment() {
+            renderQuestion(currentQuestion);
+            updateProgressBar();
+        }
+
+        // Render a question
+        function renderQuestion(index) {
+            questionsContainer.innerHTML = '';
+
+            const question = questions[index];
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question-container fade-in p-4 bg-gray-50 rounded-lg';
+
+            questionDiv.innerHTML = `
+                <h3 class="text-lg font-medium text-gray-800 mb-4">${question.text}</h3>
+                <div class="space-y-2">
+                    <label class="flex items-center p-3 border border-gray-300 rounded-lg hover:bg-blue-50 cursor-pointer">
+                        <input type="radio" name="answer" value="0" class="mr-3" ${answers[index] === 0 ? 'checked' : ''}>
+                        <span>Not at all</span>
+                    </label>
+                    <label class="flex items-center p-3 border border-gray-300 rounded-lg hover:bg-blue-50 cursor-pointer">
+                        <input type="radio" name="answer" value="1" class="mr-3" ${answers[index] === 1 ? 'checked' : ''}>
+                        <span>Several days</span>
+                    </label>
+                    <label class="flex items-center p-3 border border-gray-300 rounded-lg hover:bg-blue-50 cursor-pointer">
+                        <input type="radio" name="answer" value="2" class="mr-3" ${answers[index] === 2 ? 'checked' : ''}>
+                        <span>More than half the days</span>
+                    </label>
+                    <label class="flex items-center p-3 border border-gray-300 rounded-lg hover:bg-blue-50 cursor-pointer">
+                        <input type="radio" name="answer" value="3" class="mr-3" ${answers[index] === 3 ? 'checked' : ''}>
+                        <span>Nearly every day</span>
+                    </label>
+                </div>
+            `;
+
+            questionsContainer.appendChild(questionDiv);
+            currentQuestionElement.textContent = index + 1;
+
+            // Show/hide navigation buttons
+            prevBtn.classList.toggle('hidden', index === 0);
+            nextBtn.classList.toggle('hidden', index === questions.length - 1);
+            submitBtn.classList.toggle('hidden', index !== questions.length - 1);
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Save answer and move to next question
+        function saveAnswerAndMove(direction) {
+            const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+
+            if (selectedAnswer) {
+                answers[currentQuestion] = parseInt(selectedAnswer.value);
+
+                if (direction === 'next' && currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    renderQuestion(currentQuestion);
+                } else if (direction === 'prev' && currentQuestion > 0) {
+                    currentQuestion--;
+                    renderQuestion(currentQuestion);
+                }
+
+                updateProgressBar();
+            } else if (direction === 'next') {
+                alert('Please select an answer before continuing.');
+            }
+        }
+
+        // Calculate scores
+        function calculateScores() {
+            let anxietyScore = 0;
+            let depressionScore = 0;
+            let stressScore = 0;
+
+            answers.forEach((answer, index) => {
+                if (index < 16) {
+                    anxietyScore += answer;
+                } else if (index < 32) {
+                    depressionScore += answer;
+                } else {
+                    stressScore += answer;
+                }
+            });
+
+            return {
+                anxiety: anxietyScore,
+                depression: depressionScore,
+                stress: stressScore
+            };
+        }
+
+        // Get level based on score
+        function getLevel(score, category) {
+            const maxScores = {
+                anxiety: 48,
+                depression: 48,
+                stress: 48
+            };
+
+            const percentage = (score / maxScores[category]) * 100;
+
+            if (percentage < 25) return { level: 'Minimal', color: 'green' };
+            if (percentage < 50) return { level: 'Mild', color: 'blue' };
+            if (percentage < 75) return { level: 'Moderate', color: 'orange' };
+            return { level: 'Severe', color: 'red' };
+        }
+
+        // Display results
+        function displayResults() {
+            const scores = calculateScores();
+
+            // Update score text
+            document.getElementById('anxiety-score-text').textContent = `Score: ${scores.anxiety}/48`;
+            document.getElementById('depression-score-text').textContent = `Score: ${scores.depression}/48`;
+            document.getElementById('stress-score-text').textContent = `Score: ${scores.stress}/48`;
+
+            // Update progress bars
+            document.getElementById('anxiety-score-bar').style.width = `${(scores.anxiety / 48) * 100}%`;
+            document.getElementById('depression-score-bar').style.width = `${(scores.depression / 48) * 100}%`;
+            document.getElementById('stress-score-bar').style.width = `${(scores.stress / 48) * 100}%`;
+
+            // Update levels
+            const anxietyLevel = getLevel(scores.anxiety, 'anxiety');
+            const depressionLevel = getLevel(scores.depression, 'depression');
+            const stressLevel = getLevel(scores.stress, 'stress');
+
+            document.getElementById('anxiety-level').textContent = `Level: ${anxietyLevel.level}`;
+            document.getElementById('depression-level').textContent = `Level: ${depressionLevel.level}`;
+            document.getElementById('stress-level').textContent = `Level: ${stressLevel.level}`;
+
+            // Generate suggestions
+            generateSuggestions(scores, anxietyLevel, depressionLevel, stressLevel);
+        }
+
+        // Generate personalized suggestions
+        function generateSuggestions(scores, anxietyLevel, depressionLevel, stressLevel) {
+            const suggestionsContainer = document.getElementById('suggestions');
+            suggestionsContainer.innerHTML = '';
+
+            // Anxiety suggestions
+            if (scores.anxiety > 0) {
+                const anxietyDiv = document.createElement('div');
+                anxietyDiv.className = 'p-4 bg-blue-50 rounded-lg';
+                anxietyDiv.innerHTML = `
+                    <h4 class="font-semibold text-blue-800 mb-2">For Anxiety (${anxietyLevel.level} level):</h4>
+                    <ul class="list-disc list-inside text-blue-700 ml-2">
+                        ${anxietyLevel.level === 'Minimal' ?
+                        '<li>Continue practicing healthy coping strategies</li>' :
+                        anxietyLevel.level === 'Mild' ?
+                            '<li>Practice deep breathing exercises for 5 minutes daily</li><li>Limit caffeine intake</li><li>Try mindfulness meditation</li>' :
+                            anxietyLevel.level === 'Moderate' ?
+                                '<li>Consider talking to a therapist or counselor</li><li>Practice regular physical activity</li><li>Establish a consistent sleep routine</li>' :
+                                '<li>Seek professional mental health support</li><li>Practice grounding techniques during anxiety attacks</li><li>Consider speaking with a psychiatrist about treatment options</li>'
+                    }
+                    </ul>
+                `;
+                suggestionsContainer.appendChild(anxietyDiv);
+            }
+
+            // Depression suggestions
+            if (scores.depression > 0) {
+                const depressionDiv = document.createElement('div');
+                depressionDiv.className = 'p-4 bg-purple-50 rounded-lg';
+                depressionDiv.innerHTML = `
+                    <h4 class="font-semibold text-purple-800 mb-2">For Depression (${depressionLevel.level} level):</h4>
+                    <ul class="list-disc list-inside text-purple-700 ml-2">
+                        ${depressionLevel.level === 'Minimal' ?
+                        '<li>Maintain social connections and activities you enjoy</li>' :
+                        depressionLevel.level === 'Mild' ?
+                            '<li>Try to engage in physical activity, even a short walk</li><li>Practice self-compassion and positive self-talk</li><li>Reach out to friends or family members</li>' :
+                            depressionLevel.level === 'Moderate' ?
+                                '<li>Consider seeking therapy or counseling</li><li>Establish a daily routine with achievable goals</li><li>Spend time outdoors when possible</li>' :
+                                '<li>Please seek professional help as soon as possible</li><li>Reach out to crisis resources if having thoughts of self-harm</li><li>Consider discussing treatment options with a mental health professional</li>'
+                    }
+                    </ul>
+                `;
+                suggestionsContainer.appendChild(depressionDiv);
+            }
+
+            // Stress suggestions
+            if (scores.stress > 0) {
+                const stressDiv = document.createElement('div');
+                stressDiv.className = 'p-4 bg-orange-50 rounded-lg';
+                stressDiv.innerHTML = `
+                    <h4 class="font-semibold text-orange-800 mb-2">For Stress (${stressLevel.level} level):</h4>
+                    <ul class="list-disc list-inside text-orange-700 ml-2">
+                        ${stressLevel.level === 'Minimal' ?
+                        '<li>Continue with your effective stress management techniques</li>' :
+                        stressLevel.level === 'Mild' ?
+                            '<li>Practice time management techniques</li><li>Take regular breaks during work</li><li>Try progressive muscle relaxation</li>' :
+                            stressLevel.level === 'Moderate' ?
+                                '<li>Identify and address major stress sources</li><li>Learn to set healthy boundaries</li><li>Practice saying no to additional commitments</li>' :
+                                '<li>Consider professional help for stress management</li><li>Evaluate and potentially reduce workload</li><li>Practice regular relaxation techniques like yoga or meditation</li>'
+                    }
+                    </ul>
+                `;
+                suggestionsContainer.appendChild(stressDiv);
+            }
+
+            // General resources
+            const resourcesDiv = document.createElement('div');
+            resourcesDiv.className = 'p-4 bg-green-50 rounded-lg';
+            resourcesDiv.innerHTML = `
+                <h4 class="font-semibold text-green-800 mb-2">Additional Resources:</h4>
+                <ul class="list-disc list-inside text-green-700 ml-2">
+                    <li>National Suicide Prevention Lifeline: 988 (US)</li>
+                    <li>Crisis Text Line: Text HOME to 741741</li>
+                    <li>Consider reaching out to a mental health professional</li>
+                    <li>Practice self-care regularly</li>
+                </ul>
+            `;
+            suggestionsContainer.appendChild(resourcesDiv);
+        }
+
+        // Event listeners
+        startBtn.addEventListener('click', () => {
+            introSection.classList.add('hidden');
+            assessmentSection.classList.remove('hidden');
+            initAssessment();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            saveAnswerAndMove('prev');
+        });
+
+        nextBtn.addEventListener('click', () => {
+            saveAnswerAndMove('next');
+        });
+
+        submitBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+
+            if (selectedAnswer) {
+                answers[currentQuestion] = parseInt(selectedAnswer.value);
+                assessmentSection.classList.add('hidden');
+                resultsSection.classList.remove('hidden');
+                displayResults();
+            } else {
+                alert('Please select an answer before submitting.');
+            }
+        });
+
+        restartBtn.addEventListener('click', () => {
+            // Reset state
+            currentQuestion = 0;
+            answers.fill(null);
+
+            // Show assessment section
+            resultsSection.classList.add('hidden');
+            assessmentSection.classList.remove('hidden');
+
+            // Reinitialize assessment
+            initAssessment();
+        });
+    </script>
+</body>
+
+</html>
