@@ -29,137 +29,373 @@
         .progress-bar {
             transition: width 0.5s ease-in-out;
         }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .floating-label {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .floating-input {
+            border: 0;
+            border-bottom: 1px solid #cbd5e0;
+            outline: 0;
+            font-size: 16px;
+            padding: 10px 0;
+            background: transparent;
+            transition: border-color 0.2s;
+        }
+
+        .floating-input:focus {
+            border-bottom: 2px solid #667eea;
+        }
+
+        .floating-label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 16px;
+            color: #718096;
+            pointer-events: none;
+            transition: 0.2s ease all;
+        }
+
+        .floating-input:focus~.floating-label,
+        .floating-input:not(:placeholder-shown)~.floating-label {
+            top: -20px;
+            font-size: 12px;
+            color: #667eea;
+        }
+
+        .nav-item.active {
+            border-bottom: 3px solid #667eea;
+            color: #667eea;
+        }
+
+        .resource-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 
 <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen font-sans">
     <!-- Header -->
-    <header class="bg-white shadow-sm">
+    <header class="bg-white shadow-sm sticky top-0 z-10">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-indigo-700">MindWell</h1>
+            <h1 class="text-2xl font-bold text-indigo-700 flex items-center">
+                <i class="fas fa-brain mr-2"></i>MindWell
+            </h1>
             <div class="flex space-x-4">
-                <a href="#" class="text-indigo-600 hover:text-indigo-800">Home</a>
-                <a href="#" class="text-indigo-600 hover:text-indigo-800">About</a>
-                <a href="#" class="text-indigo-600 hover:text-indigo-800">Resources</a>
+                <a href="#" class="nav-item text-indigo-600 hover:text-indigo-800" data-target="intro">Home</a>
+                <a href="#" class="nav-item text-indigo-600 hover:text-indigo-800" data-target="about">About</a>
+                <a href="#" class="nav-item text-indigo-600 hover:text-indigo-800" data-target="resources">Resources</a>
+                <a href="#" class="nav-item text-indigo-600 hover:text-indigo-800"
+                    data-target="assessment">Assessment</a>
             </div>
         </div>
     </header>
 
     <main class="container mx-auto px-4 py-8">
         <!-- Introduction Section -->
-        <section id="intro" class="fade-in max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 mb-8">
-            <div class="text-center">
-                <h2 class="text-3xl font-bold text-indigo-800 mb-4">Mental Health Assessment</h2>
-                <p class="text-gray-600 mb-6">This assessment will help you understand your current mental wellbeing
-                    across three dimensions: Anxiety, Depression, and Stress. It consists of 48 questions and takes
-                    about 10-15 minutes to complete.</p>
-                <div class="bg-blue-50 p-4 rounded-lg mb-6">
-                    <p class="text-blue-800"><i class="fas fa-info-circle mr-2"></i>Your responses are completely
-                        anonymous and not stored on any server. This assessment is for informational purposes only and
-                        not a substitute for professional diagnosis.</p>
+        <section id="intro" class="tab-content active fade-in max-w-6xl mx-auto">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden p-8 mb-8">
+                <div class="md:flex items-center">
+                    <div class="md:w-1/2 mb-6 md:mb-0">
+                        <h2 class="text-4xl font-bold text-indigo-800 mb-4">Take Control of Your Mental Wellbeing</h2>
+                        <p class="text-gray-600 mb-6">Our comprehensive mental health assessment helps you understand
+                            your current state across anxiety, depression, and stress dimensions.</p>
+                        <button id="start-btn"
+                            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105">
+                            Begin Assessment
+                        </button>
+                    </div>
+                    <div class="md:w-1/2 flex justify-center">
+                        <img src="https://images.unsplash.com/photo-1593811167562-9cef47bfc5d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                            alt="Mental Health" class="rounded-lg shadow-lg w-full max-w-md">
+                    </div>
                 </div>
-                <button id="start-btn"
-                    class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105">
-                    Begin Assessment
-                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-heartbeat text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Anxiety Assessment</h3>
+                    <p class="text-gray-600">Evaluate your anxiety levels with clinically-informed questions.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-cloud-rain text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Depression Screening</h3>
+                    <p class="text-gray-600">Assess depressive symptoms with our validated questionnaire.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                    <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-wind text-orange-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Stress Evaluation</h3>
+                    <p class="text-gray-600">Measure your stress levels and get personalized recommendations.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="tab-content max-w-6xl mx-auto hidden">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden p-8 mb-8">
+                <h2 class="text-3xl font-bold text-indigo-800 mb-6">About MindWell</h2>
+
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Our Mission</h3>
+                    <p class="text-gray-600 mb-4">MindWell is dedicated to providing accessible mental health screening
+                        tools to help people understand their mental wellbeing. Our assessment is based on established
+                        psychological principles and designed to provide meaningful insights.</p>
+                    <p class="text-gray-600">While our tool is not a substitute for professional diagnosis, it can help
+                        you identify areas of concern and provide guidance on when to seek professional help.</p>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">How It Works</h3>
+                    <p class="text-gray-600 mb-4">Our assessment consists of 48 questions that evaluate three key
+                        dimensions of mental health:</p>
+                    <ul class="list-disc list-inside text-gray-600 ml-4 mb-4">
+                        <li class="mb-2"><span class="font-semibold">Anxiety</span> - Measures feelings of nervousness,
+                            worry, and panic</li>
+                        <li class="mb-2"><span class="font-semibold">Depression</span> - Assesses mood, interest in
+                            activities, and energy levels</li>
+                        <li class="mb-2"><span class="font-semibold">Stress</span> - Evaluates coping abilities and
+                            pressure perception</li>
+                    </ul>
+                    <p class="text-gray-600">After completing the assessment, you'll receive a detailed breakdown of
+                        your results along with personalized suggestions for improving your mental wellbeing.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Our Team</h3>
+                    <p class="text-gray-600 mb-4">MindWell was developed by a team of mental health professionals,
+                        psychologists, and software developers committed to making mental health resources more
+                        accessible to everyone.</p>
+                    <p class="text-gray-600">We regularly update our assessment based on the latest research and user
+                        feedback to ensure we're providing the most accurate and helpful information possible.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources Section -->
+        <section id="resources" class="tab-content max-w-6xl mx-auto hidden">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden p-8 mb-8">
+                <h2 class="text-3xl font-bold text-indigo-800 mb-6">Mental Health Resources</h2>
+
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Immediate Help</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="resource-card bg-red-50 p-5 rounded-lg border border-red-200">
+                            <h4 class="font-semibold text-red-800 mb-2">National Suicide Prevention Lifeline</h4>
+                            <p class="text-red-700 mb-2"><i class="fas fa-phone mr-2"></i>988 or 1-800-273-8255</p>
+                            <p class="text-red-600 text-sm">Available 24/7 for free and confidential support</p>
+                        </div>
+                        <div class="resource-card bg-blue-50 p-5 rounded-lg border border-blue-200">
+                            <h4 class="font-semibold text-blue-800 mb-2">Crisis Text Line</h4>
+                            <p class="text-blue-700 mb-2"><i class="fas fa-sms mr-2"></i>Text HOME to 741741</p>
+                            <p class="text-blue-600 text-sm">Free, 24/7 crisis support via text message</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Online Resources</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="resource-card bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                            <h4 class="font-semibold text-gray-800 mb-2">National Alliance on Mental Illness (NAMI)</h4>
+                            <p class="text-gray-600 mb-2"><i class="fas fa-globe mr-2"></i>www.nami.org</p>
+                            <p class="text-gray-500 text-sm">Provides education, support, and advocacy for individuals
+                                and families affected by mental illness</p>
+                        </div>
+                        <div class="resource-card bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                            <h4 class="font-semibold text-gray-800 mb-2">Mental Health America (MHA)</h4>
+                            <p class="text-gray-600 mb-2"><i class="fas fa-globe mr-2"></i>www.mhanational.org</p>
+                            <p class="text-gray-500 text-sm">Dedicated to addressing the needs of those living with
+                                mental illness</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Self-Help Tools</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="resource-card bg-green-50 p-4 rounded-lg border border-green-200 text-center">
+                            <div
+                                class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-book-open text-green-600"></i>
+                            </div>
+                            <h4 class="font-semibold text-green-800 mb-2">Guided Journals</h4>
+                            <p class="text-green-600 text-sm">Printable journals for mood tracking and reflection</p>
+                        </div>
+                        <div class="resource-card bg-yellow-50 p-4 rounded-lg border border-yellow-200 text-center">
+                            <div
+                                class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-meditation text-yellow-600"></i>
+                            </div>
+                            <h4 class="font-semibold text-yellow-800 mb-2">Meditation Guides</h4>
+                            <p class="text-yellow-600 text-sm">Audio guides for mindfulness and relaxation</p>
+                        </div>
+                        <div class="resource-card bg-purple-50 p-4 rounded-lg border border-purple-200 text-center">
+                            <div
+                                class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-hands-helping text-purple-600"></i>
+                            </div>
+                            <h4 class="font-semibold text-purple-800 mb-2">Support Groups</h4>
+                            <p class="text-purple-600 text-sm">Find local and online mental health support communities
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- Assessment Section -->
-        <section id="assessment"
-            class="hidden max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 mb-8">
-            <div class="mb-6">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-sm font-medium text-indigo-600">Progress</span>
-                    <span class="text-sm font-medium text-indigo-600"><span id="current-question">1</span>/48</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2.5">
-                    <div id="progress-bar" class="progress-bar bg-indigo-600 h-2.5 rounded-full" style="width: 2%">
+        <section id="assessment" class="tab-content max-w-4xl mx-auto hidden">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 mb-8">
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium text-indigo-600">Progress</span>
+                        <span class="text-sm font-medium text-indigo-600"><span id="current-question">1</span>/48</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div id="progress-bar" class="progress-bar bg-indigo-600 h-2.5 rounded-full" style="width: 2%">
+                        </div>
                     </div>
                 </div>
+
+                <form id="assessment-form">
+                    <div id="questions-container" class="space-y-8">
+                        <!-- Questions will be dynamically inserted here -->
+                    </div>
+
+                    <div class="flex justify-between mt-8">
+                        <button id="prev-btn" type="button"
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg hidden">
+                            <i class="fas fa-arrow-left mr-2"></i>Previous
+                        </button>
+                        <button id="next-btn" type="button"
+                            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg">
+                            Next<i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                        <button id="submit-btn" type="submit"
+                            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg hidden">
+                            Submit Assessment
+                        </button>
+                    </div>
+                </form>
             </div>
-
-            <form id="assessment-form">
-                <div id="questions-container" class="space-y-8">
-                    <!-- Questions will be dynamically inserted here -->
-                </div>
-
-                <div class="flex justify-between mt-8">
-                    <button id="prev-btn" type="button"
-                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg hidden">
-                        <i class="fas fa-arrow-left mr-2"></i>Previous
-                    </button>
-                    <button id="next-btn" type="button"
-                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg">
-                        Next<i class="fas fa-arrow-right ml-2"></i>
-                    </button>
-                    <button id="submit-btn" type="submit"
-                        class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg hidden">
-                        Submit Assessment
-                    </button>
-                </div>
-            </form>
         </section>
 
         <!-- Results Section -->
-        <section id="results" class="hidden max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 mb-8">
-            <div class="text-center mb-8">
-                <h2 class="text-3xl font-bold text-indigo-800 mb-2">Your Assessment Results</h2>
-                <p class="text-gray-600">Based on your responses, here's how you're doing in different areas of mental
-                    wellbeing.</p>
-            </div>
+        <section id="results" class="tab-content max-w-4xl mx-auto hidden">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 mb-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-indigo-800 mb-2">Your Assessment Results</h2>
+                    <p class="text-gray-600">Based on your responses, here's how you're doing in different areas of
+                        mental wellbeing.</p>
+                </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-blue-50 p-4 rounded-lg">
-                    <h3 class="text-xl font-semibold text-blue-800 mb-2">Anxiety</h3>
-                    <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
-                        <div id="anxiety-score-bar" class="h-4 rounded-full bg-blue-600"></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="text-xl font-semibold text-blue-800 mb-2">Anxiety</h3>
+                        <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
+                            <div id="anxiety-score-bar" class="h-4 rounded-full bg-blue-600"></div>
+                        </div>
+                        <p id="anxiety-score-text" class="text-blue-800 font-bold">Score: 0/48</p>
+                        <p id="anxiety-level" class="text-sm text-blue-700 mt-2">Level: Minimal</p>
                     </div>
-                    <p id="anxiety-score-text" class="text-blue-800 font-bold">Score: 0/48</p>
-                    <p id="anxiety-level" class="text-sm text-blue-700 mt-2">Level: Minimal</p>
-                </div>
 
-                <div class="bg-purple-50 p-4 rounded-lg">
-                    <h3 class="text-xl font-semibold text-purple-800 mb-2">Depression</h3>
-                    <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
-                        <div id="depression-score-bar" class="h-4 rounded-full bg-purple-600"></div>
+                    <div class="bg-purple-50 p-4 rounded-lg">
+                        <h3 class="text-xl font-semibold text-purple-800 mb-2">Depression</h3>
+                        <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
+                            <div id="depression-score-bar" class="h-4 rounded-full bg-purple-600"></div>
+                        </div>
+                        <p id="depression-score-text" class="text-purple-800 font-bold">Score: 0/48</p>
+                        <p id="depression-level" class="text-sm text-purple-700 mt-2">Level: Minimal</p>
                     </div>
-                    <p id="depression-score-text" class="text-purple-800 font-bold">Score: 0/48</p>
-                    <p id="depression-level" class="text-sm text-purple-700 mt-2">Level: Minimal</p>
-                </div>
 
-                <div class="bg-orange-50 p-4 rounded-lg">
-                    <h3 class="text-xl font-semibold text-orange-800 mb-2">Stress</h3>
-                    <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
-                        <div id="stress-score-bar" class="h-4 rounded-full bg-orange-600"></div>
+                    <div class="bg-orange-50 p-4 rounded-lg">
+                        <h3 class="text-xl font-semibold text-orange-800 mb-2">Stress</h3>
+                        <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
+                            <div id="stress-score-bar" class="h-4 rounded-full bg-orange-600"></div>
+                        </div>
+                        <p id="stress-score-text" class="text-orange-800 font-bold">Score: 0/48</p>
+                        <p id="stress-level" class="text-sm text-orange-700 mt-2">Level: Minimal</p>
                     </div>
-                    <p id="stress-score-text" class="text-orange-800 font-bold">Score: 0/48</p>
-                    <p id="stress-level" class="text-sm text-orange-700 mt-2">Level: Minimal</p>
                 </div>
-            </div>
 
-            <div class="bg-gray-50 p-6 rounded-lg mb-6">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">Personalized Suggestions</h3>
-                <div id="suggestions" class="space-y-4">
-                    <!-- Suggestions will be inserted here -->
+                <div class="bg-gray-50 p-6 rounded-lg mb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Personalized Suggestions</h3>
+                    <div id="suggestions" class="space-y-4">
+                        <!-- Suggestions will be inserted here -->
+                    </div>
                 </div>
-            </div>
 
-            <div class="text-center">
-                <button id="restart-btn"
-                    class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg">
-                    Take Again
-                </button>
+                <div class="text-center">
+                    <button id="restart-btn"
+                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg mr-4">
+                        Take Again
+                    </button>
+                    <button id="download-btn"
+                        class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg">
+                        Download Results
+                    </button>
+                </div>
             </div>
         </section>
     </main>
 
     <footer class="bg-white border-t mt-12">
-        <div class="container mx-auto px-4 py-6 text-center text-gray-600 text-sm">
-            <p>Disclaimer: This assessment is for informational purposes only and is not a substitute for professional
-                diagnosis or treatment.</p>
-            <p class="mt-2">If you're in crisis, please contact a mental health professional or emergency services.</p>
-            <p class="mt-4">© 2023 MindWell. All rights reserved.</p>
+        <div class="container mx-auto px-4 py-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">MindWell</h3>
+                    <p class="text-gray-600">Providing accessible mental health screening and resources for everyone.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-indigo-600 hover:text-indigo-800" data-target="intro">Home</a></li>
+                        <li><a href="#" class="text-indigo-600 hover:text-indigo-800" data-target="about">About</a></li>
+                        <li><a href="#" class="text-indigo-600 hover:text-indigo-800"
+                                data-target="resources">Resources</a></li>
+                        <li><a href="#" class="text-indigo-600 hover:text-indigo-800"
+                                data-target="assessment">Assessment</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Contact Us</h3>
+                    <p class="text-gray-600 mb-2"><i class="fas fa-envelope mr-2"></i>support@mindwell.com</p>
+                    <p class="text-gray-600"><i class="fas fa-phone mr-2"></i>+1 (800) 123-4567</p>
+                </div>
+            </div>
+            <div class="border-t mt-8 pt-6 text-center text-gray-600 text-sm">
+                <p>Disclaimer: This assessment is for informational purposes only and is not a substitute for
+                    professional diagnosis or treatment.</p>
+                <p class="mt-2">If you're in crisis, please contact a mental health professional or emergency services.
+                </p>
+                <p class="mt-4">© 2023 MindWell. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
@@ -222,6 +458,8 @@
         ];
 
         // DOM elements
+        const tabContents = document.querySelectorAll('.tab-content');
+        const navItems = document.querySelectorAll('.nav-item');
         const introSection = document.getElementById('intro');
         const assessmentSection = document.getElementById('assessment');
         const resultsSection = document.getElementById('results');
@@ -230,6 +468,7 @@
         const nextBtn = document.getElementById('next-btn');
         const submitBtn = document.getElementById('submit-btn');
         const restartBtn = document.getElementById('restart-btn');
+        const downloadBtn = document.getElementById('download-btn');
         const questionsContainer = document.getElementById('questions-container');
         const progressBar = document.getElementById('progress-bar');
         const currentQuestionElement = document.getElementById('current-question');
@@ -457,10 +696,34 @@
             suggestionsContainer.appendChild(resourcesDiv);
         }
 
+        // Switch tabs
+        function switchTab(tabId) {
+            tabContents.forEach(tab => {
+                tab.classList.add('hidden');
+                tab.classList.remove('active');
+            });
+
+            document.getElementById(tabId).classList.remove('hidden');
+            document.getElementById(tabId).classList.add('active');
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            document.querySelector(`[data-target="${tabId}"]`).classList.add('active');
+
+            window.scrollTo(0, 0);
+        }
+
+        // Download results as PDF
+        function downloadResults() {
+            // In a real implementation, this would generate a PDF
+            alert("In a complete implementation, this would generate a PDF report of your results. For now, you can take a screenshot of your results.");
+        }
+
         // Event listeners
         startBtn.addEventListener('click', () => {
-            introSection.classList.add('hidden');
-            assessmentSection.classList.remove('hidden');
+            switchTab('assessment');
             initAssessment();
         });
 
@@ -478,8 +741,7 @@
 
             if (selectedAnswer) {
                 answers[currentQuestion] = parseInt(selectedAnswer.value);
-                assessmentSection.classList.add('hidden');
-                resultsSection.classList.remove('hidden');
+                switchTab('results');
                 displayResults();
             } else {
                 alert('Please select an answer before submitting.');
@@ -492,11 +754,21 @@
             answers.fill(null);
 
             // Show assessment section
-            resultsSection.classList.add('hidden');
-            assessmentSection.classList.remove('hidden');
+            switchTab('assessment');
 
             // Reinitialize assessment
             initAssessment();
+        });
+
+        downloadBtn.addEventListener('click', downloadResults);
+
+        // Navigation event listeners
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = item.getAttribute('data-target');
+                switchTab(target);
+            });
         });
     </script>
 </body>
